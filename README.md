@@ -1,0 +1,1 @@
+# rspack-benchmark-action
