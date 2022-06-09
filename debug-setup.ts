@@ -67,14 +67,14 @@ const yarn = {
 }
 
 const prepareRspackCopies = async () => {
-  const prepareRspack = async (dir: string) => {
+  const prepareRspack = async (dir: string, ref:string) => {
     await git.clone(RSPACK_REPO, dir)
-    await git.checkout('main', dir)
+    await git.checkout(ref, dir)
     await yarn.install(dir)
     await yarn.build(dir)
   }
 
-  await Promise.all([prepareRspack(MAIN_DIR), prepareRspack(PR_DIR)])
+  await Promise.all([prepareRspack(MAIN_DIR, 'main'), prepareRspack(PR_DIR, 'add-ast-hint')])
 }
 
 const prepareFixtureCopies = async () => {

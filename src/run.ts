@@ -251,17 +251,22 @@ const runFixtureBenchmarks = async <
 
   for (const plugin of pluginInst) {
     global.gc?.()
-    const res = await plugin.runEach({
-      benchmarkConfig,
-      tmpBenchmarkDir,
-      rspackBin
-    })
-    if (res) {
-      fixtureBenchmarks.push({
-        ...res,
-        pluginId: (plugin.constructor as typeof PerformancePluginFixture).id,
-        fixture: benchmarkConfig
+    let res
+    try {
+      res = await plugin.runEach({
+        benchmarkConfig,
+        tmpBenchmarkDir,
+        rspackBin
       })
+      if (res) {
+        fixtureBenchmarks.push({
+          ...res,
+          pluginId: (plugin.constructor as typeof PerformancePluginFixture).id,
+          fixture: benchmarkConfig
+        })
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 

@@ -115,21 +115,21 @@ class PullRequestFinalizer {
                 if (prFormat === 'ms') {
                   if (metricCmped.diff > MS_THRESHOLD) {
                     resultHasIncrease = true
-                  } else {
+                  } else if (metricCmped.diff < 0) {
                     resultHasDecrease = true
                   }
                 } else if (prFormat === 'bytes') {
                   if (metricCmped.diff > BYTES_THRESHOLD) {
                     resultHasIncrease = true
-                  } else {
+                  } else if (metricCmped.diff < 0) {
                     resultHasDecrease = true
                   }
                 }
               }
 
               return [
-                mainMetric ? formatMetric(mainValue, mainFormat) : '-',
-                prMetric ? formatMetric(prValue, prFormat) : '-',
+                mainMetric ? formatMetric(mainValue, mainFormat) : 'failed',
+                prMetric ? formatMetric(prValue, prFormat) : 'failed',
                 metricCmped
                   ? formatMetric(metricCmped.diff, metricCmped.format)
                   : '-'
